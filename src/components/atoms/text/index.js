@@ -25,3 +25,15 @@ export function SemiBold1840({children, ...rest}) {
     </Text>
   );
 }
+
+export function BoldText({children, fontSize, lineHeight, ...rest}) {
+  return (
+    <Text
+      fontFamily={FONTS.Bold}
+      fontSize={fontSize || 18}
+      lineHeight={lineHeight || 40}
+      {...rest}>
+      {children}
+    </Text>
+  );
+}

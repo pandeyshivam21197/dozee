@@ -42,7 +42,7 @@ function getWeeks(weeks, days) {
 }
 
 export function getDWMprocessedData(data) {
-  const DWMdata = data.reduce(
+  const DWMdata = [...data].reduce(
     (groups, userData, index, array) => {
       const {time, ...rest} = userData;
       const isValid = moment(new Date(time)).isValid();
@@ -74,4 +74,29 @@ export function getDWMprocessedData(data) {
   getWeeks(DWMdata.weeks, DWMdata.days);
 
   return DWMdata;
+}
+
+export function getSectionProcessedData(readings) {
+  const {sleepscore, Recovery, ...rest} = readings;
+
+  const sleepData = {sleepscore, Recovery};
+
+  const vitalArray = Object.keys(rest).map(key => {
+    return {heading: key, value: rest[key]};
+  });
+
+  const sleepArray = Object.keys(sleepData).map(key => {
+    return {heading: key, value: sleepData[key]};
+  });
+
+  return [
+    {
+      title: 'Vitals',
+      data: vitalArray,
+    },
+    {
+      title: 'Sleep',
+      data: sleepArray,
+    },
+  ];
 }

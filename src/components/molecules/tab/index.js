@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useWindowDimensions, View} from 'react-native';
 import {TabView, SceneMap} from 'react-native-tab-view';
+import colors from '../../../theme/colors';
 
 const defaultRoutes = [
   {key: 'first', title: 'First'},
@@ -8,7 +9,7 @@ const defaultRoutes = [
 ];
 
 export default function Tab(props) {
-  const {tabRoutes = defaultRoutes} = props;
+  const {tabRoutes = defaultRoutes, onTabChange} = props;
 
   const layout = useWindowDimensions();
 
@@ -20,7 +21,9 @@ export default function Tab(props) {
   tabRoutes.forEach(route => {
     const {title, key} = route;
 
-    scenes[key] = () => <View style={{flex: 1, backgroundColor: 'red'}} />;
+    scenes[key] = () => (
+      <View style={{flex: 1, backgroundColor: colors.theme}} />
+    );
   });
 
   const renderScene = SceneMap(scenes);
@@ -29,7 +32,10 @@ export default function Tab(props) {
     <TabView
       navigationState={{index, routes}}
       renderScene={renderScene}
-      onIndexChange={setIndex}
+      onIndexChange={index => {
+        onTabChange(index);
+        setIndex(index);
+      }}
       initialLayout={{width: layout.width}}
     />
   );
